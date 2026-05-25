@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Хімія -- Чекіна Микола</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800;900&display=swap');
+
+    :root{
+      --bg:#050714;
+      --panel:rgba(12,18,45,.72);
+      --text:#e9f6ff;
+      --muted:#9db8d6;
+      --cyan:#00f5ff;
+      --pink:#ff2bd6;
+      --green:#39ff88;
+      --yellow:#ffe66d;
+      --red:#ff3864;
+      --border:rgba(0,245,255,.25);
+      --shadow:0 0 25px rgba(0,245,255,.35);
+    }
+
+    *{box-sizing:border-box;scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:'Exo 2',system-ui,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(0,245,255,.2), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(255,43,214,.18), transparent 32%),
+        radial-gradient(circle at 50% 90%, rgba(57,255,136,.12), transparent 30%),
+        linear-gradient(135deg,#03040d,#07132b 45%,#040612);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:
+        linear-gradient(rgba(0,245,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,.05) 1px, transparent 1px);
+      background-size:40px 40px;
+      pointer-events:none;
+      z-index:-3;
+      animation:gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove{
+      from{background-position:0 0}
+      to{background-position:400px 400px}
+    }
+
+    #particles{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-2;
+    }
+
+    .particle{
+      position:absolute;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:var(--cyan);
+      box-shadow:0 0 15px var(--cyan);
+      animation:floatParticle linear infinite;
+      opacity:.75;
+    }
+
+    @keyframes floatParticle{
+      from{transform:translateY(110vh) scale(.5)}
+      to{transform:translateY(-10vh) scale(1.25)}
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(18px);
+      background:rgba(5,7,20,.75);
+      border-bottom:1px solid var(--border);
+    }
+
+    nav{
+      max-width:1300px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+    }
+
+    .logo{
+      font-weight:900;
+      font-size:1.35rem;
+      letter-spacing:1px;
+      text-shadow:0 0 18px var(--cyan);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .logo span{color:var(--cyan)}
+
+    .nav-links{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .nav-links a{
+      color:var(--text);
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.12);
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:.92rem;
+      background:rgba(255,255,255,.04);
+      transition:.25s;
+    }
+
+    .nav-links a:hover{
+      color:#001018;
+      background:var(--cyan);
+      box-shadow:0 0 18px var(--cyan);
+      transform:translateY(-2px);
+    }
+
+    .container{
+      width:min(1300px,94%);
+      margin:auto;
+    }
+
+    section{padding:70px 0}
+
+    .hero{
+      min-height:90vh;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      align-items:center;
+      gap:35px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--border);
+      color:var(--cyan);
+      background:rgba(0,245,255,.08);
+      padding:9px 14px;
+      border-radius:999px;
+      box-shadow:0 0 20px rgba(0,245,255,.15);
+      margin-bottom:18px;
+    }
+
+    h1{
+      font-size:clamp(2.8rem,7vw,6.8rem);
+      line-height:.92;
+      margin:0 0 22px;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .gradient-text{
+      background:linear-gradient(90deg,var(--cyan),var(--pink),var(--green),var(--yellow));
+      -webkit-background-clip:text;
+      color:transparent;
+      background-size:300%;
+      animation:gradientFlow 4s linear infinite;
+    }
+
+    @keyframes gradientFlow{
+      0%{background-position:0%}
+      100%{background-position:300%}
+    }
+
+    .hero p{
+      color:var(--muted);
+      font-size:1.15rem;
+      line-height:1.7;
+      max-width:780px;
+    }
+
+    .buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:28px;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      color:var(--text);
+      font-weight:800;
+      letter-spacing:.3px;
+      padding:14px 18px;
+      border-radius:16px;
+      background:linear-gradient(135deg,rgba(0,245,255,.25),rgba(255,43,214,.18));
+      border:1px solid var(--border);
+      box-shadow:0 0 20px rgba(0,245,255,.14);
+      transition:.25s;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-family:inherit;
+    }
+
+    .btn:hover{
+      transform:translateY(-4px) scale(1.03);
+      box-shadow:0 0 28px rgba(0,245,255,.55);
+      border-color:var(--cyan);
+    }
+
+    .btn.green{background:linear-gradient(135deg,rgba(57,255,136,.35),rgba(0,245,255,.14))}
+    .btn.pink{background:linear-gradient(135deg,rgba(255,43,214,.35),rgba(43,123,255,.2))}
+    .btn.yellow{background:linear-gradient(135deg,rgba(255,230,109,.34),rgba(255,159,28,.2))}
+
+    .atom-card{
+      position:relative;
+      min-height:460px;
+      border:1px solid var(--border);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(0,245,255,.18), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(255,43,214,.16), transparent 35%),
+        linear-gradient(180deg,rgba(10,18,48,.86),rgba(3,5,16,.75));
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      padding:26px;
+    }
+
+    .hero-chem-card{
+      width:min(390px,100%);
+      border-radius:30px;
+      padding:22px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 0 30px rgba(0,245,255,.18), inset 0 0 25px rgba(255,255,255,.04);
+    }
+
+    .hero-card-header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:14px;
+      border-radius:20px;
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(0,245,255,.18);
+      margin-bottom:20px;
+    }
+
+    .hero-card-header span{
+      width:54px;
+      height:54px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      font-size:2rem;
+      background:linear-gradient(135deg,rgba(0,245,255,.25),rgba(57,255,136,.16));
+    }
+
+    .hero-card-header b{
+      display:block;
+      font-size:1.25rem;
+      color:var(--cyan);
+    }
+
+    .hero-card-header small{
+      display:block;
+      color:var(--muted);
+      margin-top:3px;
+    }
+
+    .hero-flask{
+      width:170px;
+      height:220px;
+      margin:10px auto 22px;
+      position:relative;
+      border:5px solid rgba(190,250,255,.78);
+      border-top:0;
+      border-radius:18px 18px 60px 60px;
+      overflow:hidden;
+      box-shadow:inset 0 0 24px rgba(0,245,255,.22), 0 0 28px rgba(0,245,255,.24);
+    }
+
+    .hero-flask-neck{
+      position:absolute;
+      left:50%;
+      top:-78px;
+      transform:translateX(-50%);
+      width:70px;
+      height:95px;
+      border:5px solid rgba(190,250,255,.78);
+      border-bottom:0;
+      border-radius:18px 18px 0 0;
+    }
+
+    .hero-liquid{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:48%;
+      background:linear-gradient(180deg,rgba(57,255,136,.85),rgba(0,245,255,.65));
+      animation:liquidWave 3s ease-in-out infinite;
+    }
+
+    @keyframes liquidWave{
+      0%,100%{height:46%}
+      50%{height:54%}
+    }
+
+    .hero-bubble{
+      position:absolute;
+      bottom:38px;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      background:rgba(255,255,255,.85);
+      box-shadow:0 0 14px white;
+      animation:heroBubbleUp 2.4s ease-in-out infinite;
+    }
+
+    .b1{left:35px}
+    .b2{left:67px;animation-delay:.45s;width:10px;height:10px}
+    .b3{left:98px;animation-delay:.9s;width:16px;height:16px}
+    .b4{left:122px;animation-delay:1.25s;width:9px;height:9px}
+    .b5{left:80px;animation-delay:1.6s;width:12px;height:12px}
+
+    @keyframes heroBubbleUp{
+      0%{transform:translateY(0) scale(.5);opacity:0}
+      20%{opacity:1}
+      100%{transform:translateY(-145px) scale(1.25);opacity:0}
+    }
+
+    .formula-board{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .formula-board span{
+      text-align:center;
+      padding:10px 8px;
+      border-radius:14px;
+      color:#eaffff;
+      font-weight:800;
+      background:rgba(0,0,0,.25);
+      border:1px solid rgba(0,245,255,.18);
+    }
+
+    .hero-note{
+      margin-top:16px;
+      padding:13px;
+      text-align:center;
+      border-radius:17px;
+      color:#001018;
+      font-weight:900;
+      background:linear-gradient(135deg,var(--cyan),var(--green));
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:35px;
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size:clamp(2rem,4vw,3.7rem);
+      text-transform:uppercase;
+    }
+
+    .section-title p{
+      color:var(--muted);
+      max-width:800px;
+      margin:12px auto 0;
+      line-height:1.6;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;
+    }
+
+    .card,.panel{
+      border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg,rgba(18,28,70,.78),rgba(5,8,24,.82));
+      border-radius:24px;
+      padding:20px;
+      box-shadow:0 0 20px rgba(0,0,0,.25);
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      transition:.28s;
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:var(--cyan);
+      box-shadow:0 0 28px rgba(0,245,255,.32);
+    }
+
+    .card-img{
+      height:150px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      font-size:4rem;
+      margin-bottom:15px;
+      background:
+        radial-gradient(circle at 25% 25%,rgba(0,245,255,.5),transparent 28%),
+        radial-gradient(circle at 75% 40%,rgba(255,43,214,.45),transparent 32%),
+        linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .card h3{margin:8px 0;font-size:1.35rem}
+    .card p{color:var(--muted);line-height:1.55}
+
+    .tag{
+      display:inline-block;
+      color:#001018;
+      background:var(--cyan);
+      padding:5px 9px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:.78rem;
+      margin-top:6px;
+    }
+
+    .lab-wrap,.games{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--border);
+      box-shadow:0 0 28px rgba(0,245,255,.12);
+      backdrop-filter:blur(12px);
+    }
+
+    .lab-beaker{
+      height:430px;
+      position:relative;
+      border-radius:28px;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.25));
+    }
+
+    .beaker{
+      width:250px;
+      height:310px;
+      border:5px solid rgba(190,250,255,.75);
+      border-top:0;
+      border-radius:0 0 55px 55px;
+      position:relative;
+      overflow:hidden;
+      box-shadow:inset 0 0 25px rgba(0,245,255,.25),0 0 20px rgba(0,245,255,.18);
+    }
+
+    .liquid{
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      height:45%;
+      background:linear-gradient(180deg,rgba(57,255,136,.65),rgba(0,245,255,.55));
+      transition:height .5s, background .5s;
+    }
+
+    .bubble{
+      position:absolute;
+      bottom:20px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:rgba(255,255,255,.75);
+      box-shadow:0 0 14px white;
+      animation:bubbleUp 2.5s ease-in forwards;
+    }
+
+    @keyframes bubbleUp{
+      0%{transform:translateY(0) scale(.5);opacity:0}
+      10%{opacity:1}
+      100%{transform:translateY(-340px) scale(1.4);opacity:0}
+    }
+
+    label{
+      display:block;
+      margin:15px 0 7px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:13px 14px;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.16);
+      outline:0;
+      background:rgba(3,5,16,.72);
+      color:var(--text);
+      font-family:inherit;
+      font-size:1rem;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--cyan);
+      box-shadow:0 0 18px rgba(0,245,255,.18);
+    }
+
+    .result{
+      margin-top:16px;
+      padding:15px;
+      border-radius:16px;
+      background:rgba(0,245,255,.08);
+      border:1px solid rgba(0,245,255,.22);
+      color:#dffcff;
+      line-height:1.6;
+      min-height:58px;
+    }
+
+    .periodic-controls{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .periodic-table{
+      display:grid;
+      grid-template-columns:repeat(18,minmax(48px,1fr));
+      gap:6px;
+      overflow-x:auto;
+      padding-bottom:8px;
+    }
+
+    .element{
+      min-width:48px;
+      aspect-ratio:1/1;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      padding:5px;
+      cursor:pointer;
+      transition:.2s;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .element:hover{
+      transform:scale(1.12);
+      z-index:3;
+      border-color:white;
+      box-shadow:0 0 18px currentColor;
+    }
+
+    .num{font-size:.68rem;color:rgba(255,255,255,.7)}
+    .sym{font-weight:900;font-size:1.15rem;text-align:center}
+    .ename{
+      font-size:.58rem;
+      text-align:center;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      color:rgba(255,255,255,.78);
+    }
+
+    .alkali{color:#ff5370;background:rgba(255,83,112,.14)}
+    .alkaline{color:#ffcb6b;background:rgba(255,203,107,.14)}
+    .transition{color:#82aaff;background:rgba(130,170,255,.14)}
+    .post{color:#c3e88d;background:rgba(195,232,141,.14)}
+    .metalloid{color:#89ddff;background:rgba(137,221,255,.14)}
+    .nonmetal{color:#39ff88;background:rgba(57,255,136,.14)}
+    .halogen{color:#ff2bd6;background:rgba(255,43,214,.14)}
+    .noble{color:#b388ff;background:rgba(179,136,255,.14)}
+    .lanthanide{color:#f78c6c;background:rgba(247,140,108,.14)}
+    .actinide{color:#f07178;background:rgba(240,113,120,.14)}
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background:rgba(0,0,0,.65);
+      z-index:100;
+      padding:18px;
+    }
+
+    .modal.active{display:grid}
+
+    .modal-box{
+      width:min(560px,96vw);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(13,20,55,.96),rgba(4,7,22,.96));
+      border-radius:28px;
+      padding:25px;
+      box-shadow:0 0 45px rgba(0,245,255,.25);
+      position:relative;
+    }
+
+    .close{
+      position:absolute;
+      right:16px;
+      top:14px;
+      background:rgba(255,255,255,.08);
+      color:white;
+      border:1px solid rgba(255,255,255,.18);
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .quiz-options{
+      display:grid;
+      gap:10px;
+      margin-top:15px;
+    }
+
+    .option{
+      text-align:left;
+      padding:13px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.13);
+      background:rgba(255,255,255,.05);
+      color:white;
+      cursor:pointer;
+      transition:.2s;
+      font-family:inherit;
+    }
+
+    .option:hover{border-color:var(--cyan);transform:translateX(5px)}
+    .option.correct{background:rgba(57,255,136,.22);border-color:var(--green)}
+    .option.wrong{background:rgba(255,56,100,.22);border-color:var(--red)}
+
+    .memory-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:15px;
+    }
+
+    .mem-card{
+      height:74px;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.15);
+      background:linear-gradient(135deg,rgba(0,245,255,.15),rgba(255,43,214,.12));
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      transition:.25s;
+      user-select:none;
+      font-weight:900;
+    }
+
+    /* ВИПРАВЛЕНО: більше немає rotateY(180deg), тому Au не буде uA */
+    .mem-card.open,
+    .mem-card.done{
+      background:rgba(57,255,136,.18);
+      transform:scale(1.05);
+      border-color:var(--green);
+      box-shadow:0 0 18px rgba(57,255,136,.35);
+    }
+
+    .games-extra{margin-top:24px}
+
+    .detective-hints{
+      display:grid;
+      gap:10px;
+      margin:15px 0;
+    }
+
+    .hint-card{
+      padding:12px 14px;
+      border-radius:15px;
+      background:rgba(0,245,255,.08);
+      border:1px solid rgba(0,245,255,.18);
+      color:#eaffff;
+      line-height:1.45;
+    }
+
+    .detective-input-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .game-score-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .game-pill{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--muted);
+    }
+
+    .game-pill b{color:var(--cyan)}
+
+    .ion-cards{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:15px 0;
+    }
+
+    .ion-card{
+      border-radius:18px;
+      padding:15px;
+      text-align:center;
+      background:linear-gradient(135deg,rgba(0,245,255,.12),rgba(255,43,214,.1));
+      border:1px solid rgba(255,255,255,.13);
+    }
+
+    .ion-card b{
+      display:block;
+      font-size:2rem;
+      color:var(--cyan);
+      text-shadow:0 0 14px rgba(0,245,255,.6);
+      margin-bottom:5px;
+    }
+
+    .formula-big{
+      margin:15px 0;
+      padding:18px;
+      text-align:center;
+      font-size:2rem;
+      font-weight:900;
+      color:#001018;
+      border-radius:20px;
+      background:linear-gradient(135deg,var(--cyan),var(--green));
+      box-shadow:0 0 22px rgba(0,245,255,.28);
+    }
+
+    .mini-stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-top:28px;
+    }
+
+    .stat{
+      padding:16px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      text-align:center;
+    }
+
+    .stat b{
+      font-size:1.7rem;
+      color:var(--cyan);
+      text-shadow:0 0 12px var(--cyan);
+    }
+
+    footer{
+      padding:35px 0;
+      text-align:center;
+      color:var(--muted);
+      border-top:1px solid rgba(255,255,255,.1);
+      background:rgba(0,0,0,.18);
+    }
+
+    @media(max-width:980px){
+      .hero,.lab-wrap,.games{grid-template-columns:1fr}
+      .periodic-controls{grid-template-columns:1fr}
+      .mini-stats{grid-template-columns:repeat(2,1fr)}
+      .nav-links{display:none}
+    }
+
+    @media(max-width:560px){
+      .periodic-table{grid-template-columns:repeat(18,46px)}
+      .memory-grid{grid-template-columns:repeat(3,1fr)}
+      .hero{padding-top:35px}
+      section{padding:50px 0}
+      .detective-input-row,.ion-cards{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles"></div>
+
+  <header>
+    <nav>
+      <div class="logo">⚗️ <span>NEON</span> ХІМІЯ</div>
+      <div class="nav-links">
+        <a href="#cards">Факти</a>
+        <a href="#lab">Лабораторія</a>
+        <a href="#calc">Калькулятор</a>
+        <a href="#table">Таблиця</a>
+        <a href="#games">Ігри</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="badge">🧪 Чекіна Микола ІТН-2</div>
+
+        <h1>
+          Хімія<br>
+          <span class="gradient-text">у неоні</span>
+        </h1>
+
+        <p>
+          Великий сайт з анімаціями, таблицею Менделєєва, хімічним калькулятором,
+          віртуальною реакцією соди з оцтом, міні-іграми та картками знань.
+        </p>
+
+        <div class="buttons">
+          <a class="btn" href="#lab">🚀 Запустити реакцію</a>
+          <a class="btn green" href="#table">🧬 Таблиця елементів</a>
+          <a class="btn pink" href="#games">🎮 Грати</a>
+        </div>
+
+        <div class="mini-stats">
+          <div class="stat"><b>118</b><br>елементів</div>
+          <div class="stat"><b>3</b><br>інструменти</div>
+          <div class="stat"><b>4</b><br>ігри</div>
+          <div class="stat"><b>16</b><br>карток знань</div>
+        </div>
+      </div>
+
+      <div class="atom-card">
+        <div class="hero-chem-card">
+          <div class="hero-card-header">
+            <span>🧪</span>
+            <div>
+              <b>Хімія 9 клас</b>
+              <small>Чекіна Микола</small>
+            </div>
+          </div>
+
+          <div class="hero-flask">
+            <div class="hero-flask-neck"></div>
+            <div class="hero-liquid"></div>
+            <span class="hero-bubble b1"></span>
+            <span class="hero-bubble b2"></span>
+            <span class="hero-bubble b3"></span>
+            <span class="hero-bubble b4"></span>
+            <span class="hero-bubble b5"></span>
+          </div>
+
+          <div class="formula-board">
+            <span>H₂O</span>
+            <span>CO₂</span>
+            <span>NaCl</span>
+            <span>H₂SO₄</span>
+            <span>CaCO₃</span>
+            <span>O₂</span>
+          </div>
+
+          <div class="hero-note">
+            Вивчай реакції, елементи, формули та експерименти
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cards" class="container">
+      <div class="section-title">
+        <h2>Картки знань</h2>
+        <p>Коротка інформація про хімію, речовини, реакції та явища.</p>
+      </div>
+
+      <div class="grid" id="infoCards"></div>
+    </section>
+
+    <section id="lab" class="container">
+      <div class="section-title">
+        <h2>Віртуальна лабораторія</h2>
+        <p>Змішай соду з оцтом і подивись, як утворюються бульбашки CO₂.</p>
+      </div>
+
+      <div class="lab-wrap">
+        <div class="panel">
+          <h3>🧪 Реакція: сода + оцет</h3>
+
+          <p style="color:var(--muted);line-height:1.6">
+            Харчова сода — NaHCO₃, оцет містить оцтову кислоту CH₃COOH.
+            Під час реакції виділяється вуглекислий газ CO₂.
+          </p>
+
+          <label>Кількість соди, г</label>
+          <input id="soda" type="range" min="1" max="20" value="8" />
+          <div>Сода: <b id="sodaVal">8</b> г</div>
+
+          <label>Кількість оцту, мл</label>
+          <input id="vinegar" type="range" min="10" max="100" value="45" />
+          <div>Оцет: <b id="vinegarVal">45</b> мл</div>
+
+          <div class="buttons">
+            <button class="btn green" onclick="mixReaction()">⚡ Змішати</button>
+            <button class="btn pink" onclick="resetReaction()">♻️ Очистити</button>
+          </div>
+
+          <div class="result" id="reactionResult">
+            Рівняння: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+          </div>
+        </div>
+
+        <div class="panel lab-beaker">
+          <div class="beaker" id="beaker">
+            <div class="liquid" id="liquid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calc" class="container">
+      <div class="section-title">
+        <h2>Хімічний калькулятор</h2>
+        <p>Обчислюй молярну масу формул, концентрації та приблизний pH.</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <h3>⚖️ Молярна маса</h3>
+          <label>Введи формулу речовини</label>
+          <input id="formulaInput" placeholder="Наприклад: H2O, CO2, Ca(OH)2" />
+          <button class="btn" style="margin-top:14px" onclick="calcMolar()">Порахувати</button>
+          <div class="result" id="molarResult">Результат зʼявиться тут.</div>
+        </div>
+
+        <div class="panel">
+          <h3>🧫 Молярна концентрація</h3>
+          <label>Кількість речовини n, моль</label>
+          <input id="molN" type="number" step="0.01" placeholder="Наприклад: 0.5" />
+          <label>Обʼєм V, л</label>
+          <input id="molV" type="number" step="0.01" placeholder="Наприклад: 2" />
+          <button class="btn green" style="margin-top:14px" onclick="calcConcentration()">Порахувати C</button>
+          <div class="result" id="concResult">C = n / V</div>
+        </div>
+
+        <div class="panel">
+          <h3>💧 pH калькулятор</h3>
+          <label>Концентрація H⁺, моль/л</label>
+          <input id="hConc" type="number" step="0.000001" placeholder="Наприклад: 0.001" />
+          <button class="btn pink" style="margin-top:14px" onclick="calcPH()">Порахувати pH</button>
+          <div class="result" id="phResult">pH = -log₁₀[H⁺]</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="table" class="container">
+      <div class="section-title">
+        <h2>Інтерактивна таблиця Менделєєва</h2>
+        <p>Натискай на елементи, шукай за назвою, символом або атомним номером.</p>
+      </div>
+
+      <div class="panel">
+        <div class="periodic-controls">
+          <input id="elementSearch" placeholder="Пошук: кисень, O, 8, золото..." oninput="filterElements()" />
+          <select id="categoryFilter" onchange="filterElements()">
+            <option value="">Усі категорії</option>
+            <option value="alkali">Лужні метали</option>
+            <option value="alkaline">Лужноземельні</option>
+            <option value="transition">Перехідні метали</option>
+            <option value="post">Постперехідні</option>
+            <option value="metalloid">Металоїди</option>
+            <option value="nonmetal">Неметали</option>
+            <option value="halogen">Галогени</option>
+            <option value="noble">Інертні гази</option>
+            <option value="lanthanide">Лантаноїди</option>
+            <option value="actinide">Актиноїди</option>
+          </select>
+        </div>
+
+        <div class="periodic-table" id="periodicTable"></div>
+      </div>
+    </section>
+
+    <section id="games" class="container">
+      <div class="section-title">
+        <h2>Інтерактивні ігри</h2>
+        <p>Перевір знання у вікторині та потренуй памʼять у хімічному меморі.</p>
+      </div>
+
+      <div class="games">
+        <div class="panel">
+          <h3>🎯 Хімічна вікторина</h3>
+          <div id="quizQuestion" style="font-size:1.18rem;line-height:1.5"></div>
+          <div class="quiz-options" id="quizOptions"></div>
+          <div class="result" id="quizResult">Рахунок: <b id="score">0</b></div>
+          <button class="btn" style="margin-top:12px" onclick="nextQuestion()">Наступне питання</button>
+        </div>
+
+        <div class="panel">
+          <h3>🧠 Меморі: знайди пари</h3>
+          <p style="color:var(--muted)">Відкривай картки та знаходь однакові символи.</p>
+          <div class="memory-grid" id="memoryGrid"></div>
+          <div class="result" id="memoryResult">Знайдено пар: <b id="pairs">0</b>/6</div>
+          <button class="btn green" style="margin-top:12px" onclick="startMemory()">Нова гра</button>
+        </div>
+      </div>
+
+      <div class="games games-extra">
+        <div class="panel">
+          <h3>🕵️ Елемент-детектив</h3>
+          <p style="color:var(--muted);line-height:1.6">
+            Отримай підказки та вгадай хімічний елемент. Можна вводити символ, назву або атомний номер.
+          </p>
+
+          <div class="detective-hints" id="detectiveClues">
+            Підказки зʼявляться тут.
+          </div>
+
+          <div class="detective-input-row">
+            <input id="detectiveAnswer" placeholder="Наприклад: O, Оксиген або 8" onkeydown="if(event.key==='Enter') checkElementDetective()" />
+            <button class="btn green" onclick="checkElementDetective()">Перевірити</button>
+          </div>
+
+          <div class="game-score-row">
+            <div class="game-pill">Раунд: <b id="detectiveRound">0</b></div>
+            <div class="game-pill">Очки: <b id="detectiveScore">0</b></div>
+          </div>
+
+          <div class="result" id="detectiveResult">
+            Натисни «Нова загадка», щоб почати.
+          </div>
+
+          <div class="buttons">
+            <button class="btn" onclick="startElementDetective()">🔄 Нова загадка</button>
+            <button class="btn pink" onclick="skipElementDetective()">👀 Показати відповідь</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>🧩 Конструктор формул</h3>
+          <p style="color:var(--muted);line-height:1.6">
+            Склади правильну формулу речовини з катіона та аніона.
+          </p>
+
+          <div class="ion-cards" id="formulaIonCards">
+            <div class="ion-card"><b>?</b>Катіон</div>
+            <div class="ion-card"><b>?</b>Аніон</div>
+          </div>
+
+          <label>Введи формулу</label>
+          <input id="formulaGameAnswer" placeholder="Наприклад: Ca(OH)2" onkeydown="if(event.key==='Enter') checkFormulaGame()" />
+
+          <div class="game-score-row">
+            <div class="game-pill">Завдання: <b id="formulaRound">0</b></div>
+            <div class="game-pill">Очки: <b id="formulaScore">0</b></div>
+          </div>
+
+          <div class="result" id="formulaGameResult">
+            Натисни «Нове завдання», щоб почати.
+          </div>
+
+          <div class="buttons">
+            <button class="btn green" onclick="checkFormulaGame()">✅ Перевірити</button>
+            <button class="btn" onclick="startFormulaGame()">🔄 Нове завдання</button>
+            <button class="btn pink" onclick="showFormulaAnswer()">👀 Відповідь</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="elementModal">
+    <div class="modal-box">
+      <button class="close" onclick="closeModal()">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      ⚗️ NEON Хімія — інтерактивний сайт для навчання, експериментів і гри.
+    </div>
+  </footer>
+
+  <script>
+    const particles=document.getElementById("particles");
+    for(let i=0;i<80;i++){
+      const p=document.createElement("div");
+      p.className="particle";
+      p.style.left=Math.random()*100+"%";
+      p.style.animationDuration=(6+Math.random()*12)+"s";
+      p.style.animationDelay=(-Math.random()*12)+"s";
+      p.style.background=["#00f5ff","#ff2bd6","#39ff88","#ffe66d"][Math.floor(Math.random()*4)];
+      p.style.boxShadow=`0 0 16px ${p.style.background}`;
+      particles.appendChild(p);
+    }
+
+    const cardData=[
+      ["💧","Вода H₂O","Універсальний розчинник. Має полярні молекули та утворює водневі звʼязки.","речовина"],
+      ["🔥","Горіння","Швидка реакція окиснення, під час якої виділяється тепло і часто світло.","реакція"],
+      ["🧂","Солі","Йонні сполуки, що складаються з катіонів металів і аніонів кислотних залишків.","сполуки"],
+      ["🧪","Кислоти","Речовини, які у воді можуть утворювати йони H⁺. Приклад: HCl, H₂SO₄.","кислоти"],
+      ["🧼","Основи","Сполуки, що містять OH⁻. Наприклад NaOH — їдкий натр.","основи"],
+      ["🌫️","Гази","Мають частинки, які рухаються дуже швидко та займають увесь доступний обʼєм.","агрегатний стан"],
+      ["⚛️","Атом","Найменша електронейтральна частинка елемента: ядро + електрони.","будова"],
+      ["🧲","Метали","Добре проводять тепло й електрику, часто пластичні та мають блиск.","елементи"],
+      ["🌈","Індикатори","Змінюють колір залежно від кислотності середовища.","аналіз"],
+      ["🥤","CO₂","Вуглекислий газ утворюється під час дихання, горіння та реакції соди з оцтом.","газ"],
+      ["💎","Кристали","Тверді речовини з упорядкованою структурою частинок.","структура"],
+      ["🧬","Молекули","Частинки, що складаються з атомів, зʼєднаних хімічними звʼязками.","частинки"],
+      ["🌡️","Ендотермічні реакції","Поглинають тепло з навколишнього середовища.","енергія"],
+      ["⚡","Екзотермічні реакції","Виділяють тепло, іноді світло або звук.","енергія"],
+      ["🧯","Нейтралізація","Кислота + основа → сіль + вода.","реакція"],
+      ["🍋","pH","Шкала кислотності від 0 до 14. Менше 7 — кислота, 7 — нейтральне, більше 7 — луг.","pH"]
+    ];
+
+    const infoCards=document.getElementById("infoCards");
+    cardData.forEach(c=>{
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`
+        <div class="card-img">${c[0]}</div>
+        <h3>${c[1]}</h3>
+        <p>${c[2]}</p>
+        <span class="tag">${c[3]}</span>
+      `;
+      infoCards.appendChild(div);
+    });
+
+    const soda=document.getElementById("soda");
+    const vinegar=document.getElementById("vinegar");
+    const sodaVal=document.getElementById("sodaVal");
+    const vinegarVal=document.getElementById("vinegarVal");
+    const beaker=document.getElementById("beaker");
+    const liquid=document.getElementById("liquid");
+
+    soda.oninput=()=>sodaVal.textContent=soda.value;
+    vinegar.oninput=()=>vinegarVal.textContent=vinegar.value;
+
+    function mixReaction(){
+      const s=+soda.value;
+      const v=+vinegar.value;
+      const power=Math.min(90,Math.round(s*2+v/2));
+      const bubbles=Math.min(85,Math.max(15,Math.round(power)));
+
+      liquid.style.height=Math.min(80,35+power/2)+"%";
+      liquid.style.background="linear-gradient(180deg,rgba(255,230,109,.8),rgba(0,245,255,.55))";
+
+      for(let i=0;i<bubbles;i++){
+        setTimeout(()=>{
+          const b=document.createElement("div");
+          b.className="bubble";
+          b.style.left=(20+Math.random()*210)+"px";
+          b.style.width=b.style.height=(8+Math.random()*22)+"px";
+          b.style.animationDuration=(1.2+Math.random()*2.2)+"s";
+          beaker.appendChild(b);
+          setTimeout(()=>b.remove(),3500);
+        },i*45);
+      }
+
+      document.getElementById("reactionResult").innerHTML=
+        `<b>Реакція запущена!</b><br>
+        NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑<br>
+        Приблизна інтенсивність піни: <b>${power}%</b>. Бульбашки — це CO₂.`;
+    }
+
+    function resetReaction(){
+      document.querySelectorAll(".bubble").forEach(b=>b.remove());
+      liquid.style.height="45%";
+      liquid.style.background="linear-gradient(180deg,rgba(57,255,136,.65),rgba(0,245,255,.55))";
+      document.getElementById("reactionResult").textContent=
+        "Рівняння: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑";
+    }
+
+    const rawElements=`
+1|H|Гідроген|1.008|nonmetal|1|1
+2|He|Гелій|4.003|noble|1|18
+3|Li|Літій|6.94|alkali|2|1
+4|Be|Берилій|9.012|alkaline|2|2
+5|B|Бор|10.81|metalloid|2|13
+6|C|Карбон|12.011|nonmetal|2|14
+7|N|Нітроген|14.007|nonmetal|2|15
+8|O|Оксиген|15.999|nonmetal|2|16
+9|F|Флуор|18.998|halogen|2|17
+10|Ne|Неон|20.180|noble|2|18
+11|Na|Натрій|22.990|alkali|3|1
+12|Mg|Магній|24.305|alkaline|3|2
+13|Al|Алюміній|26.982|post|3|13
+14|Si|Силіцій|28.085|metalloid|3|14
+15|P|Фосфор|30.974|nonmetal|3|15
+16|S|Сульфур|32.06|nonmetal|3|16
+17|Cl|Хлор|35.45|halogen|3|17
+18|Ar|Аргон|39.948|noble|3|18
+19|K|Калій|39.098|alkali|4|1
+20|Ca|Кальцій|40.078|alkaline|4|2
+21|Sc|Скандій|44.956|transition|4|3
+22|Ti|Титан|47.867|transition|4|4
+23|V|Ванадій|50.942|transition|4|5
+24|Cr|Хром|51.996|transition|4|6
+25|Mn|Манган|54.938|transition|4|7
+26|Fe|Ферум|55.845|transition|4|8
+27|Co|Кобальт|58.933|transition|4|9
+28|Ni|Нікель|58.693|transition|4|10
+29|Cu|Купрум|63.546|transition|4|11
+30|Zn|Цинк|65.38|transition|4|12
+31|Ga|Галій|69.723|post|4|13
+32|Ge|Германій|72.630|metalloid|4|14
+33|As|Арсен|74.922|metalloid|4|15
+34|Se|Селен|78.971|nonmetal|4|16
+35|Br|Бром|79.904|halogen|4|17
+36|Kr|Криптон|83.798|noble|4|18
+37|Rb|Рубідій|85.468|alkali|5|1
+38|Sr|Стронцій|87.62|alkaline|5|2
+39|Y|Ітрій|88.906|transition|5|3
+40|Zr|Цирконій|91.224|transition|5|4
+41|Nb|Ніобій|92.906|transition|5|5
+42|Mo|Молібден|95.95|transition|5|6
+43|Tc|Технецій|98|transition|5|7
+44|Ru|Рутеній|101.07|transition|5|8
+45|Rh|Родій|102.906|transition|5|9
+46|Pd|Паладій|106.42|transition|5|10
+47|Ag|Аргентум|107.868|transition|5|11
+48|Cd|Кадмій|112.414|transition|5|12
+49|In|Індій|114.818|post|5|13
+50|Sn|Станум|118.710|post|5|14
+51|Sb|Стибій|121.760|metalloid|5|15
+52|Te|Телур|127.60|metalloid|5|16
+53|I|Йод|126.904|halogen|5|17
+54|Xe|Ксенон|131.293|noble|5|18
+55|Cs|Цезій|132.905|alkali|6|1
+56|Ba|Барій|137.327|alkaline|6|2
+57|La|Лантан|138.905|lanthanide|8|3
+58|Ce|Церій|140.116|lanthanide|8|4
+59|Pr|Празеодим|140.908|lanthanide|8|5
+60|Nd|Неодим|144.242|lanthanide|8|6
+61|Pm|Прометій|145|lanthanide|8|7
+62|Sm|Самарій|150.36|lanthanide|8|8
+63|Eu|Європій|151.964|lanthanide|8|9
+64|Gd|Гадоліній|157.25|lanthanide|8|10
+65|Tb|Тербій|158.925|lanthanide|8|11
+66|Dy|Диспрозій|162.500|lanthanide|8|12
+67|Ho|Гольмій|164.930|lanthanide|8|13
+68|Er|Ербій|167.259|lanthanide|8|14
+69|Tm|Тулій|168.934|lanthanide|8|15
+70|Yb|Ітербій|173.045|lanthanide|8|16
+71|Lu|Лютецій|174.967|lanthanide|8|17
+72|Hf|Гафній|178.49|transition|6|4
+73|Ta|Тантал|180.948|transition|6|5
+74|W|Вольфрам|183.84|transition|6|6
+75|Re|Реній|186.207|transition|6|7
+76|Os|Осмій|190.23|transition|6|8
+77|Ir|Іридій|192.217|transition|6|9
+78|Pt|Платина|195.084|transition|6|10
+79|Au|Аурум|196.967|transition|6|11
+80|Hg|Меркурій|200.592|transition|6|12
+81|Tl|Талій|204.38|post|6|13
+82|Pb|Плюмбум|207.2|post|6|14
+83|Bi|Бісмут|208.980|post|6|15
+84|Po|Полоній|209|metalloid|6|16
+85|At|Астат|210|halogen|6|17
+86|Rn|Радон|222|noble|6|18
+87|Fr|Францій|223|alkali|7|1
+88|Ra|Радій|226|alkaline|7|2
+89|Ac|Актиній|227|actinide|9|3
+90|Th|Торій|232.038|actinide|9|4
+91|Pa|Протактиній|231.036|actinide|9|5
+92|U|Уран|238.029|actinide|9|6
+93|Np|Нептуній|237|actinide|9|7
+94|Pu|Плутоній|244|actinide|9|8
+95|Am|Америцій|243|actinide|9|9
+96|Cm|Кюрій|247|actinide|9|10
+97|Bk|Берклій|247|actinide|9|11
+98|Cf|Каліфорній|251|actinide|9|12
+99|Es|Ейнштейній|252|actinide|9|13
+100|Fm|Фермій|257|actinide|9|14
+101|Md|Менделевій|258|actinide|9|15
+102|No|Нобелій|259|actinide|9|16
+103|Lr|Лоуренсій|266|actinide|9|17
+104|Rf|Резерфордій|267|transition|7|4
+105|Db|Дубній|268|transition|7|5
+106|Sg|Сіборгій|269|transition|7|6
+107|Bh|Борій|270|transition|7|7
+108|Hs|Гасій|277|transition|7|8
+109|Mt|Майтнерій|278|transition|7|9
+110|Ds|Дармштадтій|281|transition|7|10
+111|Rg|Рентгеній|282|transition|7|11
+112|Cn|Коперницій|285|transition|7|12
+113|Nh|Ніхоній|286|post|7|13
+114|Fl|Флеровій|289|post|7|14
+115|Mc|Московій|290|post|7|15
+116|Lv|Ліверморій|293|post|7|16
+117|Ts|Теннессин|294|halogen|7|17
+118|Og|Оганесон|294|noble|7|18
+`.trim();
+
+    const elements=rawElements.split("\n").map(line=>{
+      const [z,symbol,name,mass,cat,period,group]=line.split("|");
+      return {z:+z,symbol,name,mass:+mass,cat,period:+period,group:+group};
+    });
+
+    const categoryNames={
+      alkali:"Лужний метал",
+      alkaline:"Лужноземельний метал",
+      transition:"Перехідний метал",
+      post:"Постперехідний метал",
+      metalloid:"Металоїд",
+      nonmetal:"Неметал",
+      halogen:"Галоген",
+      noble:"Інертний газ",
+      lanthanide:"Лантаноїд",
+      actinide:"Актиноїд"
+    };
+
+    const table=document.getElementById("periodicTable");
+
+    function renderElements(list=elements){
+      table.innerHTML="";
+      elements.forEach(el=>{
+        const div=document.createElement("div");
+        div.className=`element ${el.cat}`;
+        div.style.gridColumn=el.group;
+        div.style.gridRow=el.period;
+
+        if(!list.includes(el)){
+          div.style.opacity=".12";
+          div.style.filter="grayscale(1)";
+        }
+
+        div.innerHTML=`
+          <div class="num">${el.z}</div>
+          <div class="sym">${el.symbol}</div>
+          <div class="ename">${el.name}</div>
+        `;
+
+        div.onclick=()=>openElement(el);
+        table.appendChild(div);
+      });
+    }
+
+    function filterElements(){
+      const q=document.getElementById("elementSearch").value.toLowerCase().trim();
+      const cat=document.getElementById("categoryFilter").value;
+
+      const list=elements.filter(el=>{
+        const okQ=!q || (el.symbol+" "+el.name+" "+el.z).toLowerCase().includes(q);
+        const okC=!cat || el.cat===cat;
+        return okQ && okC;
+      });
+
+      renderElements(list);
+    }
+
+    function openElement(el){
+      document.getElementById("modalContent").innerHTML=`
+        <h2 style="margin-top:0">${el.symbol} — ${el.name}</h2>
+        <p><b>Атомний номер:</b> ${el.z}</p>
+        <p><b>Відносна атомна маса:</b> ${el.mass}</p>
+        <p><b>Категорія:</b> ${categoryNames[el.cat] || el.cat}</p>
+        <p><b>Період:</b> ${el.period<=7 ? el.period : "лантаноїди/актиноїди"}</p>
+        <p><b>Група:</b> ${el.group}</p>
+        <div class="result">
+          ${el.symbol} — це хімічний елемент з атомним номером ${el.z}.
+        </div>
+      `;
+      document.getElementById("elementModal").classList.add("active");
+    }
+
+    function closeModal(){
+      document.getElementById("elementModal").classList.remove("active");
+    }
+
+    renderElements();
+
+    const masses={};
+    elements.forEach(e=>masses[e.symbol]=e.mass);
+
+    function parseFormulaPart(formula){
+      let stack=[{}];
+      let i=0;
+
+      function readNumber(){
+        let num="";
+        while(i<formula.length && /[0-9]/.test(formula[i])){
+          num+=formula[i++];
+        }
+        return num ? parseInt(num) : 1;
+      }
+
+      while(i<formula.length){
+        const ch=formula[i];
+
+        if(ch==="("){
+          stack.push({});
+          i++;
+        }else if(ch===")"){
+          i++;
+          const mult=readNumber();
+          const group=stack.pop();
+
+          for(const sym in group){
+            stack[stack.length-1][sym]=(stack[stack.length-1][sym]||0)+group[sym]*mult;
+          }
+        }else if(/[A-Z]/.test(ch)){
+          let sym=ch;
+          i++;
+
+          if(i<formula.length && /[a-z]/.test(formula[i])){
+            sym+=formula[i++];
+          }
+
+          const n=readNumber();
+
+          if(!masses[sym]) throw new Error("Невідомий елемент: "+sym);
+
+          stack[stack.length-1][sym]=(stack[stack.length-1][sym]||0)+n;
+        }else{
+          i++;
+        }
+      }
+
+      return stack[0];
+    }
+
+    function calcMolar(){
+      const input=document.getElementById("formulaInput").value.trim().replace(/\s/g,"");
+      const out=document.getElementById("molarResult");
+
+      if(!input){
+        out.textContent="Введи формулу.";
+        return;
+      }
+
+      try{
+        const parts=input.split(/[·.]/);
+        let total=0;
+        let details=[];
+
+        for(let part of parts){
+          let coef=1;
+          const m=part.match(/^(\d+)([A-Z(].*)$/);
+
+          if(m){
+            coef=parseInt(m[1]);
+            part=m[2];
+          }
+
+          const counts=parseFormulaPart(part);
+          let partMass=0;
+
+          for(const sym in counts){
+            partMass+=masses[sym]*counts[sym];
+          }
+
+          total+=coef*partMass;
+          details.push(`${coef>1?coef+"×":""}${part} = ${(coef*partMass).toFixed(3)} г/моль`);
+        }
+
+        out.innerHTML=`<b>Молярна маса ${input}:</b> ${total.toFixed(3)} г/моль<br>${details.join("<br>")}`;
+      }catch(err){
+        out.innerHTML=`Помилка: ${err.message}. Перевір формулу. Приклад: Ca(OH)2`;
+      }
+    }
+
+    function calcConcentration(){
+      const n=parseFloat(document.getElementById("molN").value);
+      const v=parseFloat(document.getElementById("molV").value);
+      const out=document.getElementById("concResult");
+
+      if(!n || !v || v<=0){
+        out.textContent="Введи правильні n і V.";
+        return;
+      }
+
+      out.innerHTML=`C = n / V = ${n} / ${v} = <b>${(n/v).toFixed(4)} моль/л</b>`;
+    }
+
+    function calcPH(){
+      const h=parseFloat(document.getElementById("hConc").value);
+      const out=document.getElementById("phResult");
+
+      if(!h || h<=0){
+        out.textContent="Концентрація H⁺ має бути більшою за 0.";
+        return;
+      }
+
+      const ph=-Math.log10(h);
+      let type=ph<7 ? "кисле середовище" : ph>7 ? "лужне середовище" : "нейтральне середовище";
+
+      out.innerHTML=`pH = <b>${ph.toFixed(2)}</b> — ${type}.`;
+    }
+
+    const quiz=[
+      {q:"Яка формула води?",a:["CO₂","H₂O","NaCl","O₂"],correct:1},
+      {q:"Який газ виділяється під час реакції соди з оцтом?",a:["Кисень","Водень","Вуглекислий газ","Азот"],correct:2},
+      {q:"pH менше 7 означає...",a:["кислотне середовище","лужне середовище","метал","інертний газ"],correct:0},
+      {q:"Який елемент має символ Fe?",a:["Флуор","Ферум","Фосфор","Францій"],correct:1},
+      {q:"NaCl — це...",a:["вода","кухонна сіль","оцет","кисень"],correct:1},
+      {q:"Атомний номер показує кількість...",a:["нейтронів завжди","протонів у ядрі","молекул","звʼязків"],correct:1}
+    ];
+
+    let currentQ=0;
+    let score=0;
+    let answered=false;
+
+    function showQuestion(){
+      answered=false;
+      const q=quiz[currentQ];
+
+      document.getElementById("quizQuestion").innerHTML=`<b>Питання ${currentQ+1}/${quiz.length}:</b><br>${q.q}`;
+
+      const box=document.getElementById("quizOptions");
+      box.innerHTML="";
+
+      q.a.forEach((text,i)=>{
+        const btn=document.createElement("button");
+        btn.className="option";
+        btn.textContent=text;
+        btn.onclick=()=>answerQuiz(btn,i);
+        box.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(btn,i){
+      if(answered)return;
+      answered=true;
+
+      const q=quiz[currentQ];
+      const options=document.querySelectorAll(".option");
+      options[q.correct].classList.add("correct");
+
+      if(i===q.correct){
+        score++;
+        document.getElementById("quizResult").innerHTML="✅ Правильно! Рахунок: <b id='score'>"+score+"</b>";
+      }else{
+        btn.classList.add("wrong");
+        document.getElementById("quizResult").innerHTML="❌ Неправильно. Рахунок: <b id='score'>"+score+"</b>";
+      }
+    }
+
+    function nextQuestion(){
+      currentQ=(currentQ+1)%quiz.length;
+      showQuestion();
+    }
+
+    showQuestion();
+
+    const memorySymbols=["H","O","Na","Cl","Fe","Au"];
+    let openCards=[];
+    let locked=false;
+    let pairs=0;
+
+    function startMemory(){
+      pairs=0;
+      openCards=[];
+      locked=false;
+
+      const arr=[...memorySymbols,...memorySymbols].sort(()=>Math.random()-.5);
+      const grid=document.getElementById("memoryGrid");
+      grid.innerHTML="";
+
+      arr.forEach(sym=>{
+        const card=document.createElement("div");
+        card.className="mem-card";
+        card.dataset.sym=sym;
+        card.textContent="⚗️";
+        card.onclick=()=>openMemory(card);
+        grid.appendChild(card);
+      });
+
+      document.getElementById("memoryResult").innerHTML="Знайдено пар: <b id='pairs'>0</b>/6";
+    }
+
+    function openMemory(card){
+      if(locked || card.classList.contains("open") || card.classList.contains("done")) return;
+
+      card.classList.add("open");
+      card.textContent=card.dataset.sym;
+      openCards.push(card);
+
+      if(openCards.length===2){
+        locked=true;
+        const [a,b]=openCards;
+
+        if(a.dataset.sym===b.dataset.sym){
+          a.classList.add("done");
+          b.classList.add("done");
+
+          pairs++;
+          document.getElementById("pairs").textContent=pairs;
+
+          openCards=[];
+          locked=false;
+
+          if(pairs===6){
+            document.getElementById("memoryResult").innerHTML="🎉 Перемога! Усі пари знайдено!";
+          }
+        }else{
+          setTimeout(()=>{
+            a.classList.remove("open");
+            b.classList.remove("open");
+            a.textContent="⚗️";
+            b.textContent="⚗️";
+            openCards=[];
+            locked=false;
+          },850);
+        }
+      }
+    }
+
+    startMemory();
+
+    const detectiveFacts={
+      H:"Найлегший елемент у Всесвіті.",
+      He:"Інертний газ, яким іноді наповнюють кульки.",
+      C:"Основа органічної хімії та життя.",
+      O:"Потрібен для дихання та підтримує горіння.",
+      Na:"Дуже активний лужний метал.",
+      Cl:"Газ жовто-зеленого кольору, входить до складу кухонної солі.",
+      Fe:"Входить до складу сталі та гемоглобіну.",
+      Cu:"Метал червонуватого кольору, добре проводить електрику.",
+      Ag:"Благородний метал, назва повʼязана зі сріблом.",
+      Au:"Благородний метал жовтого кольору.",
+      Hg:"Єдиний метал, який за звичайних умов рідкий.",
+      Pb:"Важкий метал.",
+      U:"Радіоактивний елемент, використовується в ядерній енергетиці."
+    };
+
+    const detectivePool=elements.filter(e=>e.z<=36 || ["Fe","Cu","Ag","Au","Hg","Pb","U","I","Ba","Pt"].includes(e.symbol));
+
+    let detectiveCurrent=null;
+    let detectiveScore=0;
+    let detectiveRound=0;
+
+    function normalizeGameText(text){
+      return String(text)
+        .toLowerCase()
+        .trim()
+        .replace(/ґ/g,"г")
+        .replace(/'/g,"")
+        .replace(/ʼ/g,"")
+        .replace(/’/g,"")
+        .replace(/\s+/g," ");
+    }
+
+    function startElementDetective(){
+      detectiveCurrent=detectivePool[Math.floor(Math.random()*detectivePool.length)];
+      detectiveRound++;
+
+      const el=detectiveCurrent;
+
+      const clues=[
+        `Атомний номер: <b>${el.z}</b>`,
+        `Категорія: <b>${categoryNames[el.cat] || el.cat}</b>`,
+        `Період: <b>${el.period<=7 ? el.period : "окремий ряд"}</b>, група: <b>${el.group}</b>`,
+        `Відносна атомна маса приблизно: <b>${el.mass}</b>`,
+        detectiveFacts[el.symbol] ? `Факт: <b>${detectiveFacts[el.symbol]}</b>` : `Символ має <b>${el.symbol.length}</b> літеру/літери.`
+      ];
+
+      const shuffled=clues.sort(()=>Math.random()-.5).slice(0,4);
+
+      document.getElementById("detectiveClues").innerHTML=shuffled.map(c=>`<div class="hint-card">${c}</div>`).join("");
+      document.getElementById("detectiveAnswer").value="";
+      document.getElementById("detectiveRound").textContent=detectiveRound;
+      document.getElementById("detectiveScore").textContent=detectiveScore;
+      document.getElementById("detectiveResult").innerHTML="Введи символ, назву або атомний номер елемента.";
+    }
+
+    function checkElementDetective(){
+      if(!detectiveCurrent){
+        startElementDetective();
+        return;
+      }
+
+      const answer=normalizeGameText(document.getElementById("detectiveAnswer").value);
+
+      if(!answer){
+        document.getElementById("detectiveResult").textContent="Спочатку введи відповідь.";
+        return;
+      }
+
+      const el=detectiveCurrent;
+      const correctAnswers=[normalizeGameText(el.symbol),normalizeGameText(el.name),String(el.z)];
+
+      if(correctAnswers.includes(answer)){
+        detectiveScore++;
+        document.getElementById("detectiveScore").textContent=detectiveScore;
+        document.getElementById("detectiveResult").innerHTML=
+          `✅ Правильно! Це <b>${el.symbol} — ${el.name}</b>. Атомний номер: ${el.z}, маса: ${el.mass}.`;
+        setTimeout(startElementDetective,1400);
+      }else{
+        document.getElementById("detectiveResult").innerHTML="❌ Не зовсім. Спробуй ще раз або натисни «Показати відповідь».";
+      }
+    }
+
+    function skipElementDetective(){
+      if(!detectiveCurrent){
+        startElementDetective();
+        return;
+      }
+
+      const el=detectiveCurrent;
+
+      document.getElementById("detectiveResult").innerHTML=
+        `👀 Відповідь: <b>${el.symbol} — ${el.name}</b>. Атомний номер: ${el.z}.`;
+
+      setTimeout(startElementDetective,1700);
+    }
+
+    const formulaCations=[
+      {symbol:"Na",name:"Натрій",charge:1,poly:false},
+      {symbol:"K",name:"Калій",charge:1,poly:false},
+      {symbol:"Mg",name:"Магній",charge:2,poly:false},
+      {symbol:"Ca",name:"Кальцій",charge:2,poly:false},
+      {symbol:"Al",name:"Алюміній",charge:3,poly:false},
+      {symbol:"Fe",name:"Ферум(III)",charge:3,poly:false},
+      {symbol:"Cu",name:"Купрум(II)",charge:2,poly:false},
+      {symbol:"NH4",name:"Амоній",charge:1,poly:true}
+    ];
+
+    const formulaAnions=[
+      {symbol:"Cl",name:"Хлорид",charge:-1,poly:false},
+      {symbol:"O",name:"Оксид",charge:-2,poly:false},
+      {symbol:"S",name:"Сульфід",charge:-2,poly:false},
+      {symbol:"OH",name:"Гідроксид",charge:-1,poly:true},
+      {symbol:"NO3",name:"Нітрат",charge:-1,poly:true},
+      {symbol:"SO4",name:"Сульфат",charge:-2,poly:true},
+      {symbol:"CO3",name:"Карбонат",charge:-2,poly:true},
+      {symbol:"PO4",name:"Фосфат",charge:-3,poly:true}
+    ];
+
+    let formulaCurrent=null;
+    let formulaScore=0;
+    let formulaRound=0;
+
+    function gcd(a,b){
+      while(b){[a,b]=[b,a%b]}
+      return a;
+    }
+
+    function lcm(a,b){
+      return Math.abs(a*b)/gcd(a,b);
+    }
+
+    function ionChargeText(charge){
+      const sign=charge>0 ? "+" : "-";
+      const n=Math.abs(charge);
+      return n===1 ? sign : n+sign;
+    }
+
+    function formulaPiece(ion,count){
+      if(count===1)return ion.symbol;
+      if(ion.poly)return `(${ion.symbol})${count}`;
+      return `${ion.symbol}${count}`;
+    }
+
+    function toSubscripts(text){
+      const map={"0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉"};
+      return String(text).replace(/[0-9]/g,d=>map[d]);
+    }
+
+    function normalizeFormulaText(text){
+      const subMap={"₀":"0","₁":"1","₂":"2","₃":"3","₄":"4","₅":"5","₆":"6","₇":"7","₈":"8","₉":"9"};
+      return String(text)
+        .replace(/[₀-₉]/g,d=>subMap[d])
+        .replace(/\s/g,"")
+        .toLowerCase();
+    }
+
+    function generateFormula(cation,anion){
+      const cCharge=Math.abs(cation.charge);
+      const aCharge=Math.abs(anion.charge);
+      const common=lcm(cCharge,aCharge);
+      const cCount=common/cCharge;
+      const aCount=common/aCharge;
+
+      return formulaPiece(cation,cCount)+formulaPiece(anion,aCount);
+    }
+
+    function startFormulaGame(){
+      const cation=formulaCations[Math.floor(Math.random()*formulaCations.length)];
+      const anion=formulaAnions[Math.floor(Math.random()*formulaAnions.length)];
+      const formula=generateFormula(cation,anion);
+
+      formulaCurrent={cation,anion,formula};
+      formulaRound++;
+
+      document.getElementById("formulaRound").textContent=formulaRound;
+      document.getElementById("formulaScore").textContent=formulaScore;
+      document.getElementById("formulaGameAnswer").value="";
+
+      document.getElementById("formulaIonCards").innerHTML=`
+        <div class="ion-card">
+          <b>${toSubscripts(cation.symbol)}<sup>${ionChargeText(cation.charge)}</sup></b>
+          ${cation.name}
+        </div>
+
+        <div class="ion-card">
+          <b>${toSubscripts(anion.symbol)}<sup>${ionChargeText(anion.charge)}</sup></b>
+          ${anion.name}
+        </div>
+      `;
+
+      document.getElementById("formulaGameResult").innerHTML=
+        "Склади нейтральну формулу з цих йонів. Заряди мають урівноважитись.";
+    }
+
+    function checkFormulaGame(){
+      if(!formulaCurrent){
+        startFormulaGame();
+        return;
+      }
+
+      const user=normalizeFormulaText(document.getElementById("formulaGameAnswer").value);
+      const correct=normalizeFormulaText(formulaCurrent.formula);
+
+      if(!user){
+        document.getElementById("formulaGameResult").textContent="Спочатку введи формулу.";
+        return;
+      }
+
+      if(user===correct){
+        formulaScore++;
+        document.getElementById("formulaScore").textContent=formulaScore;
+
+        document.getElementById("formulaGameResult").innerHTML=
+          `✅ Правильно! Формула:
+          <div class="formula-big">${toSubscripts(formulaCurrent.formula)}</div>`;
+
+        setTimeout(startFormulaGame,1500);
+      }else{
+        document.getElementById("formulaGameResult").innerHTML=
+          "❌ Неправильно. Перевір індекси та дужки. Наприклад: Ca(OH)2.";
+      }
+    }
+
+    function showFormulaAnswer(){
+      if(!formulaCurrent){
+        startFormulaGame();
+        return;
+      }
+
+      document.getElementById("formulaGameResult").innerHTML=
+        `👀 Правильна відповідь:
+        <div class="formula-big">${toSubscripts(formulaCurrent.formula)}</div>
+        У звичайному записі: <b>${formulaCurrent.formula}</b>`;
+    }
+
+    startElementDetective();
+    startFormulaGame();
+  </script>
+</body>
+</html>
